@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lencería Arcángel - Elegancia y Confort</title>
+    <!-- Incluye Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluye iconos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Montserrat (para texto) y Playfair Display (para títulos) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f7e9e9;
+            color: #4b2d39;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-carousel {
+            height: 80vh; /* Altura del carrusel */
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease-in-out;
+            transform-origin: center center;
+            filter: brightness(0.8);
+        }
+        .hero-content {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .card-flip-container {
+            perspective: 1000px;
+        }
+        .card-flip {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card-flip:hover {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .whatsapp-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+        }
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+        }
+        /* Animación para el carrusel */
+        .carousel-fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+        .carousel-fade-in {
+            animation: fadeIn 0.5s forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/XXXXXXXXXX" target="_blank" class="whatsapp-button transition-transform duration-300" aria-label="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp text-white bg-[#25D366] rounded-full p-4 text-3xl shadow-lg"></i>
+    </a>
+
+    <!-- Barra de Navegación -->
+    <header class="fixed w-full z-40 bg-[#f7e9e9]/90 backdrop-blur-sm shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <!-- Logo y nombre de la tienda -->
+            <a href="#" class="flex items-center space-x-2 text-2xl font-bold text-[#4b2d39]" aria-label="Ir a la página principal">
+                <!-- Aquí puedes poner una imagen de tu logo -->
+                <span class="text-xl">Lencería Arcángel</span>
+            </a>
+            <!-- Menú de navegación (oculto en móvil) -->
+            <ul class="hidden md:flex space-x-6 text-sm font-semibold uppercase">
+                <li><a href="#productos" class="transition-colors duration-300 hover:text-[#c48d9e]" aria-label="Ir a la sección de productos">Productos</a></li>
+                <li><a href="#descuentos" class="transition-colors duration-300 hover:text-[#c48d9e]" aria-label="Ir a la sección de descuentos">Descuentos</a></li>
+                <li><a href="#galeria" class="transition-colors duration-300 hover:text-[#c48d9e]" aria-label="Ir a la galería de imágenes">Galería</a></li>
+                <li><a href="#nosotros" class="transition-colors duration-300 hover:text-[#c48d9e]" aria-label="Ir a la sección sobre nosotros">Nosotros</a></li>
+                <li><a href="#contacto" class="transition-colors duration-300 hover:text-[#c48d9e]" aria-label="Ir a la sección de contacto">Contacto</a></li>
+            </ul>
+            <!-- Botón del menú móvil -->
+            <button id="mobile-menu-button" class="md:hidden text-2xl" aria-label="Abrir menú de navegación">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+        <!-- Menú desplegable para móviles -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#f7e9e9]/95 backdrop-blur-sm py-4">
+            <ul class="flex flex-col items-center space-y-4 font-semibold uppercase">
+                <li><a href="#productos" class="transition-colors duration-300 hover:text-[#c48d9e]">Productos</a></li>
+                <li><a href="#descuentos" class="transition-colors duration-300 hover:text-[#c48d9e]">Descuentos</a></li>
+                <li><a href="#galeria" class="transition-colors duration-300 hover:text-[#c48d9e]">Galería</a></li>
+                <li><a href="#nosotros" class="transition-colors duration-300 hover:text-[#c48d9e]">Nosotros</a></li>
+                <li><a href="#contacto" class="transition-colors duration-300 hover:text-[#c48d9e]">Contacto</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Sección Hero con Carrusel -->
+        <section id="hero" class="relative text-white hero-carousel">
+            <div id="carousel-images" class="absolute inset-0 z-0">
+                <!-- Imágenes de ejemplo. Reemplaza con tus propias URLs. -->
+                <img src="https://placehold.co/1920x1080/c48d9e/FFFFFF?text=Lenceria+Exclusiva" alt="Lencería Exclusiva" class="hero-image absolute inset-0 opacity-100">
+                <img src="https://placehold.co/1920x1080/b05e71/FFFFFF?text=Pijamas+confortables" alt="Pijamas confortables" class="hero-image absolute inset-0 opacity-0">
+                <img src="https://placehold.co/1920x1080/f0b4b4/FFFFFF?text=Coleccion+de+Verano" alt="Colección de Verano" class="hero-image absolute inset-0 opacity-0">
+            </div>
+            <div class="relative w-full h-full flex flex-col justify-center items-center text-center p-8 bg-black bg-opacity-30">
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold uppercase drop-shadow-lg">Lencería Arcángel</h1>
+                <p class="mt-4 text-xl sm:text-2xl font-light max-w-2xl">Donde la elegancia y el confort se encuentran. Descubre tu estilo perfecto.</p>
+                <div class="mt-8 flex space-x-4">
+                    <button class="bg-[#c48d9e] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#a67484] transition-colors duration-300" aria-label="Explorar colección de lencería">Explorar Lencería</button>
+                    <button class="bg-white text-[#4b2d39] font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-200 transition-colors duration-300" aria-label="Ver pijamas">Ver Pijamas</button>
+                </div>
+            </div>
+            <!-- Controles del carrusel -->
+            <button id="prev-button" class="absolute top-1/2 left-4 -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full text-2xl hover:bg-opacity-80 transition-colors duration-300" aria-label="Imagen anterior">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button id="next-button" class="absolute top-1/2 right-4 -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full text-2xl hover:bg-opacity-80 transition-colors duration-300" aria-label="Siguiente imagen">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </section>
+
+        <!-- Sección de Categorías de Productos -->
+        <section id="productos" class="py-16 md:py-24 container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl text-center font-bold mb-12">Nuestras Categorías</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Card de Corpiños -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de corpiños">
+                    <img src="https://placehold.co/400x400/f0b4b4/FFFFFF?text=Corpiños" alt="Imagen de corpiños" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Corpiños</h3>
+                    </div>
+                </a>
+                <!-- Card de Mallas -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de mallas">
+                    <img src="https://placehold.co/400x400/c48d9e/FFFFFF?text=Mallas" alt="Imagen de mallas" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Mallas</h3>
+                    </div>
+                </a>
+                <!-- Card de Tangas -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de tangas">
+                    <img src="https://placehold.co/400x400/b05e71/FFFFFF?text=Tangas" alt="Imagen de tangas" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Tangas</h3>
+                    </div>
+                </a>
+                <!-- Card de Colaless -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de colaless">
+                    <img src="https://placehold.co/400x400/f7e9e9/4b2d39?text=Colaless" alt="Imagen de colaless" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Colaless</h3>
+                    </div>
+                </a>
+                <!-- Card de Pijama Mujer -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de pijamas para mujer">
+                    <img src="https://placehold.co/400x400/c48d9e/FFFFFF?text=Pijama+Mujer" alt="Imagen de pijamas para mujer" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Pijamas de Mujer</h3>
+                    </div>
+                </a>
+                <!-- Card de Pijama Hombre -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de pijamas para hombre">
+                    <img src="https://placehold.co/400x400/b05e71/FFFFFF?text=Pijama+Hombre" alt="Imagen de pijamas para hombre" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Pijamas de Hombre</h3>
+                    </div>
+                </a>
+                <!-- Card de Boxer -->
+                <a href="#" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" aria-label="Ir a la sección de boxers">
+                    <img src="https://placehold.co/400x400/f0b4b4/FFFFFF?text=Boxer" alt="Imagen de boxers" class="w-full h-auto rounded-t-xl object-cover aspect-square">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Boxer</h3>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Galería de Imágenes -->
+        <section id="galeria" class="py-16 md:py-24 bg-[#e9dada] container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl text-center font-bold mb-12">Nuestra Galería</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- 12 imágenes de ejemplo. Reemplaza con tus propias imágenes. -->
+                <img src="https://placehold.co/500x500/c48d9e/FFFFFF?text=Imagen+1" alt="Imagen de la galería 1" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/b05e71/FFFFFF?text=Imagen+2" alt="Imagen de la galería 2" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/f0b4b4/FFFFFF?text=Imagen+3" alt="Imagen de la galería 3" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/f7e9e9/4b2d39?text=Imagen+4" alt="Imagen de la galería 4" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/c48d9e/FFFFFF?text=Imagen+5" alt="Imagen de la galería 5" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/b05e71/FFFFFF?text=Imagen+6" alt="Imagen de la galería 6" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/f0b4b4/FFFFFF?text=Imagen+7" alt="Imagen de la galería 7" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/f7e9e9/4b2d39?text=Imagen+8" alt="Imagen de la galería 8" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/c48d9e/FFFFFF?text=Imagen+9" alt="Imagen de la galería 9" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/b05e71/FFFFFF?text=Imagen+10" alt="Imagen de la galería 10" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/f0b4b4/FFFFFF?text=Imagen+11" alt="Imagen de la galería 11" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+                <img src="https://placehold.co/500x500/f7e9e9/4b2d39?text=Imagen+12" alt="Imagen de la galería 12" class="w-full h-auto rounded-lg object-cover aspect-square hover:scale-105 transition-transform duration-300">
+            </div>
+        </section>
+        
+        <!-- Sección de Descuentos con Card Flip -->
+        <section id="descuentos" class="py-16 md:py-24 container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl text-center font-bold mb-12">Artículos con Descuento</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Card de Descuento 1 -->
+                <div class="card-flip-container h-80">
+                    <div class="card-flip shadow-xl rounded-xl">
+                        <!-- Frente de la tarjeta -->
+                        <div class="card-front bg-white rounded-xl overflow-hidden flex flex-col justify-between">
+                            <img src="https://placehold.co/600x400/c48d9e/FFFFFF?text=Articulo+1+Frente" alt="Artículo con descuento 1 - vista frontal" class="w-full h-4/5 object-cover">
+                            <div class="p-4 flex flex-col items-center">
+                                <p class="text-xl font-semibold">Artículo de Lencería</p>
+                                <div class="mt-2 text-center">
+                                    <span class="text-lg text-gray-500 line-through mr-2">$100</span>
+                                    <span class="text-xl text-[#b05e71] font-bold">$75</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Reverso de la tarjeta -->
+                        <div class="card-back bg-white rounded-xl overflow-hidden flex flex-col justify-between">
+                            <img src="https://placehold.co/600x400/b05e71/FFFFFF?text=Articulo+1+Reverso" alt="Artículo con descuento 1 - vista trasera" class="w-full h-4/5 object-cover">
+                            <div class="p-4 flex flex-col items-center">
+                                <p class="text-xl font-semibold">Artículo de Lencería</p>
+                                <div class="mt-2 text-center">
+                                    <span class="text-lg text-gray-500 line-through mr-2">$100</span>
+                                    <span class="text-xl text-[#b05e71] font-bold">$75</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card de Descuento 2 -->
+                <div class="card-flip-container h-80">
+                    <div class="card-flip shadow-xl rounded-xl">
+                        <div class="card-front bg-white rounded-xl overflow-hidden flex flex-col justify-between">
+                            <img src="https://placehold.co/600x400/f0b4b4/FFFFFF?text=Articulo+2+Frente" alt="Artículo con descuento 2 - vista frontal" class="w-full h-4/5 object-cover">
+                            <div class="p-4 flex flex-col items-center">
+                                <p class="text-xl font-semibold">Pijama de Verano</p>
+                                <div class="mt-2 text-center">
+                                    <span class="text-lg text-gray-500 line-through mr-2">$120</span>
+                                    <span class="text-xl text-[#b05e71] font-bold">$90</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back bg-white rounded-xl overflow-hidden flex flex-col justify-between">
+                            <img src="https://placehold.co/600x400/f7e9e9/4b2d39?text=Articulo+2+Reverso" alt="Artículo con descuento 2 - vista trasera" class="w-full h-4/5 object-cover">
+                            <div class="p-4 flex flex-col items-center">
+                                <p class="text-xl font-semibold">Pijama de Verano</p>
+                                <div class="mt-2 text-center">
+                                    <span class="text-lg text-gray-500 line-through mr-2">$120</span>
+                                    <span class="text-xl text-[#b05e71] font-bold">$90</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card de Descuento 3 -->
+                <div class="card-flip-container h-80">
+                    <div class="card-flip shadow-xl rounded-xl">
+                        <div class="card-front bg-white rounded-xl overflow-hidden flex flex-col justify-between">
+                            <img src="https://placehold.co/600x400/b05e71/FFFFFF?text=Articulo+3+Frente" alt="Artículo con descuento 3 - vista frontal" class="w-full h-4/5 object-cover">
+                            <div class="p-4 flex flex-col items-center">
+                                <p class="text-xl font-semibold">Conjunto Sexy</p>
+                                <div class="mt-2 text-center">
+                                    <span class="text-lg text-gray-500 line-through mr-2">$80</span>
+                                    <span class="text-xl text-[#b05e71] font-bold">$60</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back bg-white rounded-xl overflow-hidden flex flex-col justify-between">
+                            <img src="https://placehold.co/600x400/c48d9e/FFFFFF?text=Articulo+3+Reverso" alt="Artículo con descuento 3 - vista trasera" class="w-full h-4/5 object-cover">
+                            <div class="p-4 flex flex-col items-center">
+                                <p class="text-xl font-semibold">Conjunto Sexy</p>
+                                <div class="mt-2 text-center">
+                                    <span class="text-lg text-gray-500 line-through mr-2">$80</span>
+                                    <span class="text-xl text-[#b05e71] font-bold">$60</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección "Sobre Nosotros" -->
+        <section id="nosotros" class="py-16 md:py-24 bg-[#f7e9e9] container mx-auto px-6">
+            <div class="md:flex items-center md:space-x-12">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/800x600/f0b4b4/FFFFFF?text=Equipo+Lenceria+Arcangel" alt="Imagen del equipo de Lencería Arcángel" class="w-full rounded-xl shadow-lg mb-8 md:mb-0">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Sobre Nosotros</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        En Lencería Arcángel, creemos que la lencería y los pijamas son más que simples prendas de vestir. Son una expresión de tu personalidad, un reflejo de tu estado de ánimo y una forma de sentirte cómoda y poderosa. Nos dedicamos a seleccionar piezas de alta calidad, con diseños que combinan la sensualidad, la elegancia y el confort.
+                    </p>
+                    <p class="mt-4 text-lg text-gray-700 leading-relaxed">
+                        Nuestro compromiso es ofrecerte una experiencia de compra única, con atención personalizada y un catálogo que se adapta a cada momento de tu vida. Desde la lencería más delicada para una ocasión especial, hasta los pijamas más suaves para tus noches de descanso.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Contacto -->
+        <section id="contacto" class="py-16 md:py-24 bg-[#e9dada] container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl text-center font-bold mb-12">¡Contáctanos!</h2>
+            <div class="flex flex-col items-center text-center">
+                <p class="text-lg max-w-xl text-gray-700">
+                    Estamos aquí para ayudarte. Si tienes preguntas, comentarios o necesitas asistencia, no dudes en contactarnos a través de nuestras redes sociales.
+                </p>
+                <div class="mt-8 flex space-x-6 text-3xl">
+                    <a href="#" target="_blank" class="text-[#3b5998] hover:text-[#2d4373] transition-colors duration-300" aria-label="Ir a nuestra página de Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" target="_blank" class="text-[#E1306C] hover:text-[#c11d57] transition-colors duration-300" aria-label="Ir a nuestro perfil de Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="text-[#FF0000] hover:text-[#d40000] transition-colors duration-300" aria-label="Ir a nuestro canal de YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de Página (Footer) -->
+    <footer class="bg-[#4b2d39] text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 Lencería Arcángel. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script de JavaScript para el carrusel y el menú móvil -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lógica para el carrusel
+            const carouselImages = document.querySelectorAll('#carousel-images .hero-image');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            let currentIndex = 0;
+
+            function showImage(index) {
+                carouselImages.forEach((img, i) => {
+                    if (i === index) {
+                        img.classList.remove('opacity-0', 'carousel-fade-out');
+                        img.classList.add('opacity-100', 'carousel-fade-in');
+                    } else {
+                        img.classList.remove('opacity-100', 'carousel-fade-in');
+                        img.classList.add('opacity-0', 'carousel-fade-out');
+                    }
+                });
+            }
+
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % carouselImages.length;
+                showImage(currentIndex);
+            }
+
+            function prevImage() {
+                currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+                showImage(currentIndex);
+            }
+
+            nextButton.addEventListener('click', nextImage);
+            prevButton.addEventListener('click', prevImage);
+            
+            // Opcional: Auto-play del carrusel
+            setInterval(nextImage, 5000); // Cambia de imagen cada 5 segundos
+
+            // Lógica para el menú móvil
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Cerrar el menú si se hace clic en un enlace
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Código para el scroll suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
